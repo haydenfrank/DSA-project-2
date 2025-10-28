@@ -2,8 +2,10 @@
 // import reactLogo from "./assets/react.svg";
 // import viteLogo from "/vite.svg";
 import "./App.css";
-import { Combobox } from "./components/ui/combobox";
-import { Button } from "./components/ui/button";
+import { SortingAlgorithmsCombobox } from "./components/ui/user-defined/sortingAlgorithmsCombobox";
+import { NutritionalValueCombobox } from "./components/ui/user-defined/nutritionalValueCombobox";
+import { SortingMethodsSwitch } from "./components/ui/user-defined/sortingMethodsSwitch";
+import { SortButton } from "./components/ui/user-defined/sortButton";
 
 function App() {
   // const [count, setCount] = useState(0);
@@ -30,11 +32,11 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p> */}
-      <div className="flex justify-center gap-2 md:flex-row mx-auto w-64">
-        <Combobox />
-        <Combobox />
-        <Combobox />
-        <Button>Sort</Button>
+      <div className="flex justify-center gap-2 md:flex-row mx-auto w-64 place-items-center">
+        <SortingAlgorithmsCombobox />
+        <NutritionalValueCombobox />
+        <SortingMethodsSwitch />
+        <SortButton />
       </div>
     </>
   );
