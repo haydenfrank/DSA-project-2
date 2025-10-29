@@ -34,8 +34,11 @@ export function SortingBarChart({
   ];
 
   const [data, setData] = React.useState(initialData);
-
+  const [sorting, setSorting] = React.useState(false);
   React.useEffect(() => {
+    if (!sortButtonClicked || sorting) return;
+
+    setSorting(true);
     const steps = bubbleSortSteps(initialData);
 
     let i = 0;

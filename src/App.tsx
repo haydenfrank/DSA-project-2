@@ -7,12 +7,10 @@ import { NutritionalValueCombobox } from "./components/ui/user-defined/nutrition
 import { SortingMethodsSwitch } from "./components/ui/user-defined/sortingMethodsSwitch";
 import { SortButton } from "./components/ui/user-defined/sortButton";
 import { SortingBarChart } from "./components/ui/user-defined/sortingBarChart";
-import { load } from "@/lib/utils.ts";
 
 function App() {
   // const [count, setCount] = useState(0);
   const [triggerSort, setTriggerSort] = useState(false);
-  console.log(load("/public/food.csv"));
   const handleSort = () => {
     setTriggerSort((prev) => !prev);
   };
