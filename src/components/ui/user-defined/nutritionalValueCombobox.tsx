@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Papa from "papaparse";
+import { load } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -26,22 +26,12 @@ export function NutritionalValueCombobox() {
   const [columns, setColumns] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    fetch("/food.csv")
-      .then((res) => res.text())
-      .then((text) => {
-        const parsed = Papa.parse(text, { header: true });
-        if (parsed.meta.fields) {
-          const dataColumns = parsed.meta.fields.filter((col) =>
-            col.trim().startsWith("Data.")
-          );
-          const trimmedColumns = dataColumns.map(
-            (col) => col.split(".").pop() || col
-          );
-          setColumns(trimmedColumns);
-        }
-      })
-      .catch((err) => console.error("Error loading CSV:", err));
-  }, []);
+    const fetchColumns = async () => {
+      const colTitles = await load("/food.csv");
+      setColumns(colTitles);
+    };
+    fetchColumns();
+  });
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

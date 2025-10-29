@@ -7,10 +7,11 @@ import { NutritionalValueCombobox } from "./components/ui/user-defined/nutrition
 import { SortingMethodsSwitch } from "./components/ui/user-defined/sortingMethodsSwitch";
 import { SortButton } from "./components/ui/user-defined/sortButton";
 import { BarGraph } from "./components/ui/barGraph";
+import { load } from "@/lib/utils.ts";
 
 function App() {
   // const [count, setCount] = useState(0);
-
+  console.log(load("/public/food.csv"));
   return (
     <>
       <div className="flex flex-wrap justify-center items-center">
