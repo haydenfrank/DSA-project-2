@@ -5,15 +5,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const load = async (filePath: string): Promise<string[]> => {
+export const load = async (filePath: string): Promise<string> => {
   return await fetch(filePath)
     .then((response) => response.text())
     .then((responseText) => {
-      return responseText
-        .split("\n")[0]
-        .split(",")
-        .map((col) => col.replaceAll('"', ""))
-        .filter((col) => col.startsWith("Data."))
-        .map((col) => col.split(".").at(-1)!);
+      return responseText;
     });
+};
+
+export const parseDataTitles = async (filePath: string): Promise<string[]> => {
+  const csvData = await load(filePath);
+  return csvData
+    .split("\n")[0]
+    .split(",")
+    .map((col) => col.replaceAll('"', ""))
+    .filter((col) => col.startsWith("Data."))
+    .map((col) => col.split(".").at(-1)!);
 };

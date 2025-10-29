@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { load } from "@/lib/utils";
+import { parseDataTitles } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -27,7 +27,7 @@ export function NutritionalValueCombobox() {
 
   React.useEffect(() => {
     const fetchColumns = async () => {
-      const colTitles = await load("/food.csv");
+      const colTitles = await parseDataTitles("/food.csv");
       setColumns(colTitles);
     };
     fetchColumns();
