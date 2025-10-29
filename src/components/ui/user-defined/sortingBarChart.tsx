@@ -36,17 +36,15 @@ export function SortingBarChart({
   const [data, setData] = React.useState(initialData);
 
   React.useEffect(() => {
-    if (sortButtonClicked) {
-      const steps = bubbleSortSteps(initialData);
+    const steps = bubbleSortSteps(initialData);
 
-      let i = 0;
-      const interval = setInterval(() => {
-        setData(steps[i]);
-        i++;
-        if (i >= steps.length) clearInterval(interval);
-      }, 300);
-      return () => clearInterval(interval);
-    }
+    let i = 0;
+    const interval = setInterval(() => {
+      setData(steps[i]);
+      i++;
+      if (i >= steps.length) clearInterval(interval);
+    }, 300);
+    return () => clearInterval(interval);
   }, [sortButtonClicked]);
 
   return (
