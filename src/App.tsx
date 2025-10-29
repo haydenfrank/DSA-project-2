@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import { useState } from "react";
 // import reactLogo from "./assets/react.svg";
 // import viteLogo from "/vite.svg";
 import "./App.css";
@@ -6,12 +6,16 @@ import { SortingAlgorithmsCombobox } from "./components/ui/user-defined/sortingA
 import { NutritionalValueCombobox } from "./components/ui/user-defined/nutritionalValueCombobox";
 import { SortingMethodsSwitch } from "./components/ui/user-defined/sortingMethodsSwitch";
 import { SortButton } from "./components/ui/user-defined/sortButton";
-import { BarGraph } from "./components/ui/barGraph";
+import { SortingBarChart } from "./components/ui/user-defined/sortingBarChart";
 import { load } from "@/lib/utils.ts";
 
 function App() {
   // const [count, setCount] = useState(0);
+  const [triggerSort, setTriggerSort] = useState(false);
   console.log(load("/public/food.csv"));
+  const handleSort = () => {
+    setTriggerSort((prev) => !prev);
+  };
   return (
     <>
       <div className="flex flex-wrap justify-center items-center">
@@ -19,10 +23,10 @@ function App() {
           <SortingAlgorithmsCombobox />
           <NutritionalValueCombobox />
           <SortingMethodsSwitch />
-          <SortButton />
+          <SortButton onSort={handleSort} />
         </div>
-        <div className="flex justify-center mt-6 h-[80vh] scale-85">
-          <BarGraph />
+        <div className="flex items-center justify-center mt-6 h-[80vh] scale-100">
+          <SortingBarChart sortButtonClicked={triggerSort} />
         </div>
       </div>
     </>
