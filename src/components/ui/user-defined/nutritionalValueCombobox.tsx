@@ -18,7 +18,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function NutritionalValueCombobox() {
+export function NutritionalValueCombobox({
+  onValueChange,
+}: {
+  onValueChange?: (value: string) => void;
+}) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [columns, setColumns] = React.useState<string[]>([]);
@@ -30,7 +34,7 @@ export function NutritionalValueCombobox() {
       setColumns(colTitles);
     };
     fetchColumns();
-  });
+  }, []);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -59,8 +63,10 @@ export function NutritionalValueCombobox() {
                   key={col}
                   value={col}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    const newValue = currentValue === value ? "" : currentValue;
+                    setValue(newValue);
                     setOpen(false);
+                    if (onValueChange) onValueChange(newValue);
                   }}
                 >
                   {col}
