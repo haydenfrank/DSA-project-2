@@ -1,6 +1,5 @@
 import "./App.css";
 import * as React from "react";
-import { createDataObjects } from "@/lib/utils";
 import { SortingAlgorithmsCombobox } from "@/components/ui/user-defined/sortingAlgorithmsCombobox";
 import { NutritionalValueCombobox } from "@/components/ui/user-defined/nutritionalValueCombobox";
 import { SortingMethodsSwitch } from "@/components/ui/user-defined/sortingMethodsSwitch";
@@ -8,7 +7,6 @@ import { SortButton } from "@/components/ui/user-defined/sortButton";
 import { SortingBarChart } from "@/components/ui/user-defined/sortingBarChart";
 
 function App() {
-  console.log(createDataObjects("/food.csv"));
   return (
     <>
       <div className="flex flex-wrap justify-center items-center">

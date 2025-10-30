@@ -5,6 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+const splitCSVRow = (row: string) => {
+  const matches = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+  return matches?.map((v) => v.replace(/^"|"$/g, "")) ?? [];
+};
+
 export const createDataObjects = async (
   filePath: string
 ): Promise<Record<string, string>[]> => {
@@ -25,7 +30,7 @@ export const createDataObjects = async (
     });
   const rows = csvData.split("\n").slice(1);
   const objects = rows.map((row) => {
-    const values = row.split(",");
+    const values = splitCSVRow(row);
     const obj: Record<string, string> = {};
     headers.forEach((header, i) => {
       obj[header] = values[i];
@@ -34,5 +39,3 @@ export const createDataObjects = async (
   });
   return objects;
 };
-
-// export const createDataObjects = async();

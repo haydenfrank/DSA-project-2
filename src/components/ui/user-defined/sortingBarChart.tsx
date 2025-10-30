@@ -1,18 +1,24 @@
+import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+import { createDataObjects } from "@/lib/utils";
+import type React from "react";
 
 export function SortingBarChart() {
-  const initialData = [
-    { name: "A", value: 30 },
-    { name: "B", value: 80 },
-    { name: "C", value: 45 },
-    { name: "D", value: 60 },
-    { name: "E", value: 20 },
-  ];
+  const [data, setData] = useState<any[]>([]);
+  useEffect(() => {
+    createDataObjects("/food.csv").then((csvData) => {
+      const chartData = csvData.map((row) => ({
+        name: row["Category"],
+        value: Number(row["Beta Carotene"]),
+      }));
+      setData(chartData);
+    });
+  }, []);
   return (
     <BarChart
       width={900}
       height={600}
-      data={initialData}
+      data={data}
       margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
     >
       <CartesianGrid strokeDasharray="3 3" />
