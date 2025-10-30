@@ -14,23 +14,69 @@ export function SortingBarChart({
   selectedNutrient,
   isAscending,
 }: SortingBarChartProps) {
-  const [data, setData] = useState<any[]>([]);
+  // const [data, setData] = useState<any[]>([]);
+  // useEffect(() => {
+  //   if (!selectedNutrient) return;
+  //   createDataObjects("/food.csv").then((csvData) => {
+  //     const chartData = csvData
+  //       .map((row) => ({
+  //         name: row["Description"],
+  //         value: Number(row[selectedNutrient]),
+  //       }))
+  //       .filter((item) => item.value !== 0);
+  //     // const sortedData = [...chartData]
+  //     //   .sort((a, b) => (isAscending ? a.value - b.value : b.value - a.value))
+  //     //   .slice(0, 10);
+
+  //     setData(chartData);
+  //   });
+  // }, [selectedNutrient, isAscending, sortTrigger]);
+
+  const [data, setData] = useState<{ name: string; value: number }[]>([]);
   useEffect(() => {
     if (!selectedNutrient) return;
+
     createDataObjects("/food.csv").then((csvData) => {
       const chartData = csvData
         .map((row) => ({
           name: row["Description"],
           value: Number(row[selectedNutrient]),
         }))
-        .filter((item) => item.value !== 0);
-      const sortedData = [...chartData]
-        .sort((a, b) => (isAscending ? a.value - b.value : b.value - a.value))
-        .slice(0, 10);
+        .filter((item) => item.value !== 0)
+        .slice(0, 50); // limit for visible animation
 
-      setData(sortedData);
+      setData(chartData);
     });
-  }, [selectedNutrient, isAscending, sortTrigger]);
+  }, [selectedNutrient]);
+
+  // Animate bubble sort when triggered
+  useEffect(() => {
+    if (data.length === 0) return;
+
+    let arr = [...data];
+    let i = 0;
+
+    const interval = setInterval(() => {
+      if (i < arr.length) {
+        // Perform a full pass
+        for (let j = 0; j < arr.length - i - 1; j++) {
+          const shouldSwap = isAscending
+            ? arr[j].value > arr[j + 1].value
+            : arr[j].value < arr[j + 1].value;
+          if (shouldSwap) {
+            [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+          }
+        }
+
+        setData([...arr]); // update chart after the pass
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 300); // adjust speed of animation per pass
+
+    return () => clearInterval(interval);
+  }, [sortTrigger]);
 
   return (
     <BarChart
