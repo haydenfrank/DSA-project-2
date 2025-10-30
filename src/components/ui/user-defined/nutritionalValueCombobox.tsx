@@ -1,7 +1,5 @@
-"use client";
-
 import * as React from "react";
-import { parseDataTitles } from "@/lib/utils";
+import { createDataObjects } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -27,7 +25,8 @@ export function NutritionalValueCombobox() {
 
   React.useEffect(() => {
     const fetchColumns = async () => {
-      const colTitles = await parseDataTitles("/food.csv");
+      const dataObjects = await createDataObjects("/food.csv");
+      const colTitles = Object.keys(dataObjects[0]).slice(3);
       setColumns(colTitles);
     };
     fetchColumns();
@@ -53,30 +52,6 @@ export function NutritionalValueCombobox() {
             className="h-9"
           />
           <CommandList>
-            {/* {columns.length === 0 ? (
-              <CommandEmpty>No columns found.</CommandEmpty>
-            ) : (
-              <CommandGroup>
-                {columns.map((col) => (
-                  <CommandItem
-                    key={col}
-                    value={col}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? "" : currentValue);
-                      setOpen(false);
-                    }}
-                  >
-                    {col}
-                    <Check
-                      className={cn(
-                        "ml-auto",
-                        value === col ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )} */}
             <CommandEmpty>No nutritional value found.</CommandEmpty>
             <CommandGroup>
               {columns.map((col) => (

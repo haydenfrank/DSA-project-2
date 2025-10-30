@@ -5,20 +5,34 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const load = async (filePath: string): Promise<string> => {
-  return await fetch(filePath)
+export const createDataObjects = async (
+  filePath: string
+): Promise<Record<string, string>[]> => {
+  const csvData = await fetch(filePath)
     .then((response) => response.text())
     .then((responseText) => {
       return responseText;
     });
-};
-
-export const parseDataTitles = async (filePath: string): Promise<string[]> => {
-  const csvData = await load(filePath);
-  return csvData
+  const headers = csvData
     .split("\n")[0]
     .split(",")
     .map((col) => col.replaceAll('"', ""))
-    .filter((col) => col.startsWith("Data."))
-    .map((col) => col.split(".").at(-1)!);
+    .map((col) => {
+      if (col.startsWith("Data.")) {
+        return col.split(".").at(-1)!;
+      }
+      return col;
+    });
+  const rows = csvData.split("\n").slice(1);
+  const objects = rows.map((row) => {
+    const values = row.split(",");
+    const obj: Record<string, string> = {};
+    headers.forEach((header, i) => {
+      obj[header] = values[i];
+    });
+    return obj;
+  });
+  return objects;
 };
+
+// export const createDataObjects = async();
