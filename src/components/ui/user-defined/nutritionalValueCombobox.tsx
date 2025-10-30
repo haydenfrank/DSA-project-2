@@ -30,7 +30,7 @@ export function NutritionalValueCombobox() {
       setColumns(colTitles);
     };
     fetchColumns();
-  });
+  }, []);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
