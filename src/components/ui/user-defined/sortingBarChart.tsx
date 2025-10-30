@@ -2,17 +2,35 @@ import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { createDataObjects } from "@/lib/utils";
 
-export function SortingBarChart() {
+type SortingBarChartProps = {
+  sortTrigger: number;
+  selectedNutrient: string;
+  isAscending: boolean;
+};
+
+export function SortingBarChart({
+  sortTrigger,
+  selectedNutrient,
+  isAscending,
+}: SortingBarChartProps) {
   const [data, setData] = useState<any[]>([]);
   useEffect(() => {
+    if (!selectedNutrient) return;
     createDataObjects("/food.csv").then((csvData) => {
-      const chartData = csvData.map((row) => ({
-        name: row["Category"],
-        value: Number(row["Beta Carotene"]),
-      }));
-      setData(chartData);
+      const chartData = csvData
+        .map((row) => ({
+          name: row["Description"],
+          value: Number(row[selectedNutrient]),
+        }))
+        .filter((item) => item.value !== 0);
+      const sortedData = [...chartData]
+        .sort((a, b) => (isAscending ? a.value - b.value : b.value - a.value))
+        .slice(0, 10);
+
+      setData(sortedData);
     });
-  }, []);
+  }, [selectedNutrient, isAscending, sortTrigger]);
+
   return (
     <BarChart
       width={900}
