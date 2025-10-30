@@ -1,5 +1,4 @@
 import "./App.css";
-import * as React from "react";
 import { SortingAlgorithmsCombobox } from "@/components/ui/user-defined/sortingAlgorithmsCombobox";
 import { NutritionalValueCombobox } from "@/components/ui/user-defined/nutritionalValueCombobox";
 import { SortingMethodsSwitch } from "@/components/ui/user-defined/sortingMethodsSwitch";
