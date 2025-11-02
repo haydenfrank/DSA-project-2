@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { createDataObjects } from "@/lib/utils";
-import { mergeCount, mergeTime } from "@/lib/mergesort";
-import { heapTime } from "@/lib/heapsort";
+import { mergeCount } from "@/lib/mergesort";
+import { heapCount } from "@/lib/heapsort";
 import type { graphData } from "@/lib/heapsort";
 
 type SortingBarChartProps = {
@@ -45,7 +45,7 @@ export function SortingBarChart({
       setData(sortedData.sorted);
       setComparisons(sortedData.comparisons);
     } else if (selectedSort == "heap sort") {
-      const sortedData = heapTime(cache!);
+      const sortedData = heapCount(cache!);
       setData(sortedData.sorted);
       setComparisons(sortedData.comparisons);
     }
