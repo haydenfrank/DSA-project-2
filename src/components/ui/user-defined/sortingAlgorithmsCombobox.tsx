@@ -28,7 +28,11 @@ const frameworks = [
   },
 ];
 
-export function SortingAlgorithmsCombobox() {
+export function SortingAlgorithmsCombobox({
+  onValueChange,
+}: {
+  onValueChange?: (value: string) => void;
+}) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -58,8 +62,10 @@ export function SortingAlgorithmsCombobox() {
                   key={framework.value}
                   value={framework.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    const newValue = currentValue === value ? "" : currentValue;
+                    setValue(newValue);
                     setOpen(false);
+                    if (onValueChange) onValueChange(newValue);
                   }}
                 >
                   {framework.label}

@@ -1,49 +1,69 @@
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { createDataObjects } from "@/lib/utils";
-import type React from "react";
+import { mergeTime } from "@/lib/mergesort";
 
 type SortingBarChartProps = {
   sortTrigger: number;
   selectedNutrient: string;
-  isAscending: boolean;
+  selectedCategory: string;
+  selectedSort: string;
 };
 
+let cache: { name: string; value: number }[] | null = null;
+
 export function SortingBarChart({
-  sortTrigger,
   selectedNutrient,
-  isAscending,
+  selectedCategory,
+  sortTrigger,
+  selectedSort,
 }: SortingBarChartProps) {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<{ name: string; value: number }[]>([]);
+  const [time, setTime] = useState<number>(0);
+
   useEffect(() => {
-    if (!selectedNutrient) return;
+    if (!selectedNutrient || !selectedCategory) return;
     createDataObjects("/food.csv").then((csvData) => {
       const chartData = csvData
+        .filter((row) => row["Category"] === selectedCategory)
         .map((row) => ({
           name: row["Description"],
           value: Number(row[selectedNutrient]),
-        }))
-        .filter((item) => item.value !== 0);
-      const sortedData = [...chartData]
-        .sort((a, b) => (isAscending ? a.value - b.value : b.value - a.value))
-        .slice(0, 10);
-
-      setData(sortedData);
+        }));
+      cache = chartData;
+      setData(chartData);
     });
-  }, [selectedNutrient, isAscending, sortTrigger]);
+  }, [selectedCategory, selectedNutrient]);
 
-  return (
-    <BarChart
-      width={900}
-      height={600}
-      data={data}
-      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Bar dataKey="value" fill="#8884d8" isAnimationActive={true} />
-    </BarChart>
-  );
+  useEffect(() => {
+    if (!selectedNutrient || !selectedCategory || !cache || !selectedSort)
+      return;
+    if (selectedSort == "merge sort") {
+      const sortedData = mergeTime(cache!);
+      setData(sortedData.sorted);
+      setTime(sortedData.time);
+    }
+  }, [sortTrigger]);
+
+  if (cache) {
+    return (
+      <div>
+        <BarChart
+          width={900}
+          height={600}
+          data={data}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" tick={false} />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="value" fill="#8884d8" isAnimationActive={true} />
+        </BarChart>
+        <p>{time.toFixed(50)}</p>
+      </div>
+    );
+  } else {
+    return <p>select a category and nutritional value</p>;
+  }
 }
