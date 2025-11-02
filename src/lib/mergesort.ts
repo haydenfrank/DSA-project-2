@@ -4,9 +4,9 @@
 // write the merge sort
 // helper function to record time for merge sort
 
-export function mergeSort(
-  data: { name: string; value: number }[]
-): { name: string; value: number }[] {
+import type { graphData } from "./heapsort";
+
+export function mergeSort(data: graphData): graphData {
   if (data.length <= 1) {
     return data;
   }
@@ -15,11 +15,8 @@ export function mergeSort(
   const right = data.slice(middle);
   return merge(mergeSort(left), mergeSort(right));
 }
-export function merge(
-  left: { name: string; value: number }[],
-  right: { name: string; value: number }[]
-): { name: string; value: number }[] {
-  const result: { name: string; value: number }[] = [];
+export function merge(left: graphData, right: graphData): graphData {
+  const result: graphData = [];
   let i = 0;
   let j = 0;
   while (i < left.length && j < right.length) {
@@ -34,8 +31,8 @@ export function merge(
   return result.concat(left.slice(i)).concat(right.slice(j));
 }
 
-export function mergeTime(data: { name: string; value: number }[]): {
-  sorted: { name: string; value: number }[];
+export function mergeTime(data: graphData): {
+  sorted: graphData;
   time: number;
 } {
   const start = performance.now();
