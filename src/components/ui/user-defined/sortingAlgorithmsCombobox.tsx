@@ -19,7 +19,7 @@ import {
 
 const frameworks = [
   {
-    value: "heapsort",
+    value: "heap sort",
     label: "Heap Sort",
   },
   {

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { createDataObjects } from "@/lib/utils";
 import { mergeTime } from "@/lib/mergesort";
+import { heapTime } from "@/lib/heapsort";
+import type { graphData } from "@/lib/heapsort";
 
 type SortingBarChartProps = {
   sortTrigger: number;
@@ -10,7 +12,7 @@ type SortingBarChartProps = {
   selectedSort: string;
 };
 
-let cache: { name: string; value: number }[] | null = null;
+let cache: graphData | null = null;
 
 export function SortingBarChart({
   selectedNutrient,
@@ -18,7 +20,7 @@ export function SortingBarChart({
   sortTrigger,
   selectedSort,
 }: SortingBarChartProps) {
-  const [data, setData] = useState<{ name: string; value: number }[]>([]);
+  const [data, setData] = useState<graphData>([]);
   const [time, setTime] = useState<number>(0);
 
   useEffect(() => {
@@ -40,6 +42,10 @@ export function SortingBarChart({
       return;
     if (selectedSort == "merge sort") {
       const sortedData = mergeTime(cache!);
+      setData(sortedData.sorted);
+      setTime(sortedData.time);
+    } else if (selectedSort == "heap sort") {
+      const sortedData = heapTime(cache!);
       setData(sortedData.sorted);
       setTime(sortedData.time);
     }
