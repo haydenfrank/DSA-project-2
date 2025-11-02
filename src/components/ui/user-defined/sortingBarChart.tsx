@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { createDataObjects } from "@/lib/utils";
-import type React from "react";
 import { mergeTime } from "@/lib/mergesort";
 
 type SortingBarChartProps = {

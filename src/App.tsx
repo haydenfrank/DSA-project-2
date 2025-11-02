@@ -1,5 +1,4 @@
 import "./App.css";
-import * as React from "react";
 import { CategoryCombobox } from "@/components/ui/user-defined/categoryCombobox";
 import { SortingAlgorithmsCombobox } from "@/components/ui/user-defined/sortingAlgorithmsCombobox";
 import { NutritionalValueCombobox } from "@/components/ui/user-defined/nutritionalValueCombobox";
