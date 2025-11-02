@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { createDataObjects } from "@/lib/utils";
-import { mergeTime } from "@/lib/mergesort";
-import { heapTime } from "@/lib/heapsort";
+import { mergeCount } from "@/lib/mergesort";
+import { heapCount } from "@/lib/heapsort";
 import type { graphData } from "@/lib/heapsort";
 
 type SortingBarChartProps = {
@@ -21,7 +21,7 @@ export function SortingBarChart({
   selectedSort,
 }: SortingBarChartProps) {
   const [data, setData] = useState<graphData>([]);
-  const [time, setTime] = useState<number>(0);
+  const [comparisons, setComparisons] = useState<number>(0);
 
   useEffect(() => {
     if (!selectedNutrient || !selectedCategory) return;
@@ -41,13 +41,13 @@ export function SortingBarChart({
     if (!selectedNutrient || !selectedCategory || !cache || !selectedSort)
       return;
     if (selectedSort == "merge sort") {
-      const sortedData = mergeTime(cache!);
+      const sortedData = mergeCount(cache!);
       setData(sortedData.sorted);
-      setTime(sortedData.time);
+      setComparisons(sortedData.comparisons);
     } else if (selectedSort == "heap sort") {
-      const sortedData = heapTime(cache!);
+      const sortedData = heapCount(cache!);
       setData(sortedData.sorted);
-      setTime(sortedData.time);
+      setComparisons(sortedData.comparisons);
     }
   }, [sortTrigger]);
 
@@ -66,7 +66,7 @@ export function SortingBarChart({
           <Tooltip />
           <Bar dataKey="value" fill="#8884d8" isAnimationActive={true} />
         </BarChart>
-        <p>{time.toFixed(50)}</p>
+        <p>{comparisons}</p>
       </div>
     );
   } else {
