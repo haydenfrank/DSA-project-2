@@ -11,6 +11,7 @@ function App() {
   const [triggerSort, setTriggerSort] = useState(0);
   const [selectedNutrient, setSelectedNutrient] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSort, setSelectedSort] = useState("");
   const handleSort = () => {
     console.log("Sort clicked!");
     setTriggerSort(triggerSort + 1);
@@ -20,7 +21,7 @@ function App() {
     <>
       <div className="flex flex-wrap justify-center items-center">
         <div className="flex justify-center gap-2 md:flex-row mx-auto place-items-center mt-4 w-full">
-          <SortingAlgorithmsCombobox />
+          <SortingAlgorithmsCombobox onValueChange={setSelectedSort} />
           <CategoryCombobox onValueChange={setSelectedCategory} />
           <NutritionalValueCombobox onValueChange={setSelectedNutrient} />
           <SortButton sortClicked={handleSort} />
@@ -30,6 +31,7 @@ function App() {
             sortTrigger={triggerSort}
             selectedNutrient={selectedNutrient}
             selectedCategory={selectedCategory}
+            selectedSort={selectedSort}
           />
         </div>
       </div>

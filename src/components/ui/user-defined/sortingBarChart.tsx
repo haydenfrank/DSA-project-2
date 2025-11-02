@@ -8,6 +8,7 @@ type SortingBarChartProps = {
   sortTrigger: number;
   selectedNutrient: string;
   selectedCategory: string;
+  selectedSort: string;
 };
 
 let cache: { name: string; value: number }[] | null = null;
@@ -16,6 +17,7 @@ export function SortingBarChart({
   selectedNutrient,
   selectedCategory,
   sortTrigger,
+  selectedSort,
 }: SortingBarChartProps) {
   const [data, setData] = useState<{ name: string; value: number }[]>([]);
   const [time, setTime] = useState<number>(0);
@@ -35,10 +37,13 @@ export function SortingBarChart({
   }, [selectedCategory, selectedNutrient]);
 
   useEffect(() => {
-    if (!selectedNutrient || !selectedCategory || !cache) return;
-    const sortedData = mergeTime(cache!);
-    setData(sortedData.sorted);
-    setTime(sortedData.time);
+    if (!selectedNutrient || !selectedCategory || !cache || !selectedSort)
+      return;
+    if (selectedSort == "merge sort") {
+      const sortedData = mergeTime(cache!);
+      setData(sortedData.sorted);
+      setTime(sortedData.time);
+    }
   }, [sortTrigger]);
 
   return (
