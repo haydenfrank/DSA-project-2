@@ -45,21 +45,25 @@ export function SortingBarChart({
     }
   }, [sortTrigger]);
 
-  return (
-    <div>
-      <BarChart
-        width={900}
-        height={600}
-        data={data}
-        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="value" fill="#8884d8" isAnimationActive={true} />
-      </BarChart>
-      <p>{time.toFixed(50)}</p>
-    </div>
-  );
+  if (cache) {
+    return (
+      <div>
+        <BarChart
+          width={900}
+          height={600}
+          data={data}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" tick={false} />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="value" fill="#8884d8" isAnimationActive={true} />
+        </BarChart>
+        <p>{time.toFixed(50)}</p>
+      </div>
+    );
+  } else {
+    return <p>select a category and nutritional value</p>;
+  }
 }
