@@ -20,27 +20,39 @@ import {
 
 let cache: string[] | null = null;
 
-export function NutritionalValueCombobox({
+export function CategoryCombobox({
   onValueChange,
 }: {
   onValueChange?: (value: string) => void;
 }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
-  const [columns, setColumns] = React.useState<string[]>([]);
+  const [categories, setCategories] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    const fetchColumns = async () => {
+    const loadCategories = async () => {
       if (cache) {
-        setColumns(cache);
+        setCategories(cache);
         return;
       }
+
       const dataObjects = await createDataObjects("/food.csv");
-      const colTitles = Object.keys(dataObjects[0]).slice(3);
-      cache = colTitles;
-      setColumns(colTitles);
+      const allCategories = dataObjects
+        .map((row: any) => row["Category"])
+        .filter((c) => c && c.trim() !== "");
+      const counts: Record<string, number> = {};
+      for (const c of allCategories) {
+        const normalized = c.trim();
+        counts[normalized] = (counts[normalized] || 0) + 1;
+      }
+      const filteredCategories = Object.keys(counts).filter(
+        (cat) => counts[cat] > 1
+      );
+      cache = filteredCategories;
+      setCategories(filteredCategories);
     };
-    fetchColumns();
+
+    loadCategories();
   }, []);
 
   return (
@@ -52,35 +64,32 @@ export function NutritionalValueCombobox({
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value || "Select nutritional value..."}
+          {value || "Select category..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput
-            placeholder="Search nutritional values..."
-            className="h-9"
-          />
+          <CommandInput placeholder="Search categories..." className="h-9" />
           <CommandList>
-            <CommandEmpty>No nutritional value found.</CommandEmpty>
+            <CommandEmpty>No category found.</CommandEmpty>
             <CommandGroup>
-              {columns.map((col) => (
+              {categories.map((cat) => (
                 <CommandItem
-                  key={col}
-                  value={col}
+                  key={cat}
+                  value={cat}
                   onSelect={(currentValue) => {
                     const newValue = currentValue === value ? "" : currentValue;
                     setValue(newValue);
                     setOpen(false);
-                    if (onValueChange) onValueChange(newValue);
+                    onValueChange?.(newValue);
                   }}
                 >
-                  {col}
+                  {cat}
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === col ? "opacity-100" : "opacity-0"
+                      value === cat ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>
