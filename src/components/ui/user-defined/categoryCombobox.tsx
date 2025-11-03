@@ -48,8 +48,9 @@ export function CategoryCombobox({
       const filteredCategories = Object.keys(counts).filter(
         (cat) => counts[cat] > 1
       );
-      cache = filteredCategories;
-      setCategories(filteredCategories);
+      const totalCategories = ["All Categories", ...filteredCategories];
+      cache = totalCategories;
+      setCategories(cache);
     };
 
     loadCategories();
