@@ -48,7 +48,7 @@ export function SortingBarChart({
         setData(chartData);
       });
     }
-  }, [selectedCategory, selectedNutrient]);
+  }, [selectedCategory, selectedNutrient, selectedSort]);
 
   useEffect(() => {
     if (!selectedNutrient || !selectedCategory || !cache || !selectedSort)
