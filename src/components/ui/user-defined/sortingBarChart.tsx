@@ -81,7 +81,7 @@ export function SortingBarChart({
           <XAxis dataKey="name" tick={false} />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="value" fill="#8884d8" isAnimationActive={true} />
+          <Bar dataKey="value" fill="#6f94ff" isAnimationActive={true} />
         </BarChart>
         <p>
           Comparisons: {comparisons}, Swaps: {swaps}, Time: {time}
