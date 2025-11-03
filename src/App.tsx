@@ -11,18 +11,36 @@ function App() {
   const [selectedNutrient, setSelectedNutrient] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSort, setSelectedSort] = useState("");
+  const [topTen, setTopTen] = useState<string[]>([]);
+  const [showList, setShowList] = useState(false);
   const handleSort = () => {
     console.log("Sort clicked!");
     setTriggerSort(triggerSort + 1);
+    setShowList(true);
+  };
+
+  const handleNutrientChange = (value: string) => {
+    setSelectedNutrient(value);
+    setShowList(false);
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+    setShowList(false);
+  };
+
+  const handleSortChange = (value: string) => {
+    setSelectedSort(value);
+    setShowList(false);
   };
 
   return (
     <>
       <div className="flex flex-wrap justify-center items-center">
         <div className="flex justify-center gap-2 md:flex-row mx-auto place-items-center mt-4 w-full">
-          <SortingAlgorithmsCombobox onValueChange={setSelectedSort} />
-          <CategoryCombobox onValueChange={setSelectedCategory} />
-          <NutritionalValueCombobox onValueChange={setSelectedNutrient} />
+          <SortingAlgorithmsCombobox onValueChange={handleSortChange} />
+          <CategoryCombobox onValueChange={handleCategoryChange} />
+          <NutritionalValueCombobox onValueChange={handleNutrientChange} />
           <SortButton sortClicked={handleSort} />
         </div>
         <div className="flex items-center justify-center mt-6 h-[80vh] scale-100">
@@ -31,7 +49,20 @@ function App() {
             selectedNutrient={selectedNutrient}
             selectedCategory={selectedCategory}
             selectedSort={selectedSort}
+            onTopTenUpdate={setTopTen}
           />
+          {showList && (
+            <div>
+              <header className="font-bold text-xl">Top Ten List</header>
+              <ol className="text-left pl-2">
+                {topTen.map((line, index) => (
+                  <li key={index} className="mb-1">
+                    <span className="font-semibold">#{index + 1}:</span> {line}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
         </div>
       </div>
     </>
