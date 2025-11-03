@@ -31,21 +31,15 @@ export function merge(left: graphData, right: graphData): graphData {
   return result.concat(left.slice(i)).concat(right.slice(j));
 }
 
-export function mergeTime(data: graphData): {
+export function mergePerformance(data: graphData): {
   sorted: graphData;
   time: number;
-} {
-  const start = performance.now();
-  const sorted = mergeSort(data);
-  const end = performance.now();
-  return { sorted, time: end - start };
-}
-
-export function mergeCount(data: graphData): {
-  sorted: graphData;
+  swaps: number;
   comparisons: number;
 } {
+  const start = performance.now();
   let comparisons = 0;
+  let swaps = 0;
   function mergeSort(arr: graphData): graphData {
     if (arr.length <= 1) return arr;
     const mid = Math.floor(arr.length / 2);
@@ -63,6 +57,7 @@ export function mergeCount(data: graphData): {
         result.push(left[i]);
         i++;
       } else {
+        swaps++;
         result.push(right[j]);
         j++;
       }
@@ -71,7 +66,8 @@ export function mergeCount(data: graphData): {
   }
 
   const sorted = mergeSort(data);
-  return { sorted, comparisons };
+  const end = performance.now();
+  return { sorted, time: end - start, comparisons, swaps };
 }
 
 //

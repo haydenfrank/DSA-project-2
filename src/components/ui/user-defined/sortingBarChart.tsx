@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { createDataObjects } from "@/lib/utils";
-import { mergeCount } from "@/lib/mergesort";
-import { heapCount } from "@/lib/heapsort";
+import { mergePerformance } from "@/lib/mergesort";
+import { heapPerformance } from "@/lib/heapsort";
 import type { graphData } from "@/lib/heapsort";
 
 type SortingBarChartProps = {
@@ -22,32 +22,49 @@ export function SortingBarChart({
 }: SortingBarChartProps) {
   const [data, setData] = useState<graphData>([]);
   const [comparisons, setComparisons] = useState<number>(0);
+  const [swaps, setSwaps] = useState<number>(0);
+  const [time, setTime] = useState<number>(0);
 
   useEffect(() => {
     if (!selectedNutrient || !selectedCategory) return;
-    createDataObjects("/food.csv").then((csvData) => {
-      const chartData = csvData
-        .filter((row) => row["Category"] === selectedCategory)
-        .map((row) => ({
+    if (selectedCategory != "All Categories") {
+      createDataObjects("/food.csv").then((csvData) => {
+        const chartData = csvData
+          .filter((row) => row["Category"] === selectedCategory)
+          .map((row) => ({
+            name: row["Description"],
+            value: Number(row[selectedNutrient]),
+          }));
+        cache = chartData;
+        setData(chartData);
+      });
+    } else {
+      createDataObjects("/food.csv").then((csvData) => {
+        const chartData = csvData.map((row) => ({
           name: row["Description"],
           value: Number(row[selectedNutrient]),
         }));
-      cache = chartData;
-      setData(chartData);
-    });
+        cache = chartData;
+        setData(chartData);
+      });
+    }
   }, [selectedCategory, selectedNutrient]);
 
   useEffect(() => {
     if (!selectedNutrient || !selectedCategory || !cache || !selectedSort)
       return;
     if (selectedSort == "merge sort") {
-      const sortedData = mergeCount(cache!);
+      const sortedData = mergePerformance(cache!);
       setData(sortedData.sorted);
       setComparisons(sortedData.comparisons);
+      setSwaps(sortedData.swaps);
+      setTime(sortedData.time);
     } else if (selectedSort == "heap sort") {
-      const sortedData = heapCount(cache!);
+      const sortedData = heapPerformance(cache!);
       setData(sortedData.sorted);
       setComparisons(sortedData.comparisons);
+      setSwaps(sortedData.swaps);
+      setTime(sortedData.time);
     }
   }, [sortTrigger]);
 
@@ -66,7 +83,9 @@ export function SortingBarChart({
           <Tooltip />
           <Bar dataKey="value" fill="#8884d8" isAnimationActive={true} />
         </BarChart>
-        <p>{comparisons}</p>
+        <p>
+          Comparisons: {comparisons}, Swaps: {swaps}, Time: {time}
+        </p>
       </div>
     );
   } else {
