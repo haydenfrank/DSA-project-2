@@ -51,18 +51,25 @@ function App() {
             selectedSort={selectedSort}
             onTopTenUpdate={setTopTen}
           />
-          {showList && (
-            <div>
-              <header className="font-bold text-xl">Top Ten List</header>
-              <ol className="text-left pl-2">
-                {topTen.map((line, index) => (
-                  <li key={index} className="mb-1">
-                    <span className="font-semibold">#{index + 1}:</span> {line}
-                  </li>
-                ))}
-              </ol>
-            </div>
-          )}
+
+          <div>
+            {showList && (
+              <div>
+                <header className="font-bold text-xl">Top Ten List</header>
+                <ol className="text-left pl-2">
+                  {topTen.map((line, index) => (
+                    <li key={index} className="mb-1">
+                      <span className="font-semibold">#{index + 1}:</span>{" "}
+                      {line}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+            {!showList && selectedNutrient && selectedCategory && (
+              <h1>sort the data to display a top 10 list!</h1>
+            )}
+          </div>
         </div>
       </div>
     </>
