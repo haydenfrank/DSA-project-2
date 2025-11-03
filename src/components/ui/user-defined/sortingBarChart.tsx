@@ -10,6 +10,7 @@ type SortingBarChartProps = {
   selectedNutrient: string;
   selectedCategory: string;
   selectedSort: string;
+  onTopTenUpdate?: (topTen: string[]) => void;
 };
 
 let cache: graphData | null = null;
@@ -19,6 +20,7 @@ export function SortingBarChart({
   selectedCategory,
   sortTrigger,
   selectedSort,
+  onTopTenUpdate,
 }: SortingBarChartProps) {
   const [data, setData] = useState<graphData>([]);
   const [comparisons, setComparisons] = useState<number>(0);
@@ -48,24 +50,28 @@ export function SortingBarChart({
         setData(chartData);
       });
     }
-  }, [selectedCategory, selectedNutrient]);
+  }, [selectedCategory, selectedNutrient, selectedSort]);
 
   useEffect(() => {
     if (!selectedNutrient || !selectedCategory || !cache || !selectedSort)
       return;
+    let topTenList: string[] = [];
     if (selectedSort == "merge sort") {
       const sortedData = mergePerformance(cache!);
+      topTenList = sortedData.sorted.slice(-10).map((entry) => entry.name);
       setData(sortedData.sorted);
       setComparisons(sortedData.comparisons);
       setSwaps(sortedData.swaps);
       setTime(sortedData.time);
     } else if (selectedSort == "heap sort") {
       const sortedData = heapPerformance(cache!);
+      topTenList = sortedData.sorted.slice(-10).map((entry) => entry.name);
       setData(sortedData.sorted);
       setComparisons(sortedData.comparisons);
       setSwaps(sortedData.swaps);
       setTime(sortedData.time);
     }
+    if (onTopTenUpdate) onTopTenUpdate(topTenList);
   }, [sortTrigger]);
 
   if (cache) {
