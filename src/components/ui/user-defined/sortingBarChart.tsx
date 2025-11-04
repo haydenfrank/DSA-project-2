@@ -10,7 +10,7 @@ type SortingBarChartProps = {
   selectedNutrient: string;
   selectedCategory: string;
   selectedSort: string;
-  onTopTenUpdate?: (topTen: string[]) => void;
+  onTopTenUpdate?: (topTen: graphData) => void;
 };
 
 let cache: graphData | null = null;
@@ -55,17 +55,29 @@ export function SortingBarChart({
   useEffect(() => {
     if (!selectedNutrient || !selectedCategory || !cache || !selectedSort)
       return;
-    let topTenList: string[] = [];
+    let topTenList: graphData = [];
     if (selectedSort == "merge sort") {
       const sortedData = mergePerformance(cache!);
-      topTenList = sortedData.sorted.slice(-10).map((entry) => entry.name);
+      topTenList = sortedData.sorted
+        .slice(-10)
+        .reverse()
+        .map((entry) => ({
+          name: entry.name,
+          value: entry.value,
+        }));
       setData(sortedData.sorted);
       setComparisons(sortedData.comparisons);
       setSwaps(sortedData.swaps);
       setTime(sortedData.time);
     } else if (selectedSort == "heap sort") {
       const sortedData = heapPerformance(cache!);
-      topTenList = sortedData.sorted.slice(-10).map((entry) => entry.name);
+      topTenList = sortedData.sorted
+        .slice(-10)
+        .reverse()
+        .map((entry) => ({
+          name: entry.name,
+          value: entry.value,
+        }));
       setData(sortedData.sorted);
       setComparisons(sortedData.comparisons);
       setSwaps(sortedData.swaps);
