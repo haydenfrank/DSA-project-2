@@ -4,7 +4,8 @@ import { SortingAlgorithmsCombobox } from "@/components/ui/user-defined/sortingA
 import { NutritionalValueCombobox } from "@/components/ui/user-defined/nutritionalValueCombobox";
 import { SortButton } from "@/components/ui/user-defined/sortButton";
 import { SortingBarChart } from "@/components/ui/user-defined/sortingBarChart";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { PsychedelicSpiral } from "@/components/ui/shadcn-io/psychedelic-spiral";
 
 function App() {
   const [triggerSort, setTriggerSort] = useState(0);
@@ -33,26 +34,34 @@ function App() {
     setSelectedSort(value);
     setShowList(false);
   };
+  const spiralBackground = useMemo(() => (
+      <div className="fixed inset-0 w-full h-full -z-10">
+      <PsychedelicSpiral />
+      </div>
+  ), []);
 
   return (
-    <>
-      <div className="flex flex-wrap justify-center items-center">
-        <div className="flex justify-center gap-2 md:flex-row mx-auto place-items-center mt-4 w-full">
-          <SortingAlgorithmsCombobox onValueChange={handleSortChange} />
-          <CategoryCombobox onValueChange={handleCategoryChange} />
-          <NutritionalValueCombobox onValueChange={handleNutrientChange} />
-          <SortButton sortClicked={handleSort} />
-        </div>
-        <div className="flex items-center justify-center mt-6 h-[80vh] scale-100">
-          <SortingBarChart
-            sortTrigger={triggerSort}
-            selectedNutrient={selectedNutrient}
-            selectedCategory={selectedCategory}
-            selectedSort={selectedSort}
-            onTopTenUpdate={setTopTen}
-          />
+      <div className="relative min-h-screen">
+        {spiralBackground}
 
-          <div>
+          <div className="relative z-10 bg-white min-h-screen mx-4 my-8 rounded-3xl shadow-lg">
+            <div className="flex flex-wrap justify-center items-center">
+              <div className="flex justify-center gap-2 md:flex-row mx-auto place-items-center mt-4 w-full">
+                <SortingAlgorithmsCombobox onValueChange={handleSortChange} />
+                <CategoryCombobox onValueChange={handleCategoryChange} />
+                <NutritionalValueCombobox onValueChange={handleNutrientChange} />
+                <SortButton sortClicked={handleSort} />
+              </div>
+
+              <div className="flex items-center justify-center mt-6 h-[80vh] scale-100">
+                <SortingBarChart
+                    sortTrigger={triggerSort}
+                    selectedNutrient={selectedNutrient}
+                    selectedCategory={selectedCategory}
+                    selectedSort={selectedSort}
+                    onTopTenUpdate={setTopTen}
+                />
+                <div>
             {showList && (
               <div>
                 <header className="font-bold text-xl">Top Ten List</header>
@@ -70,9 +79,11 @@ function App() {
               <h1>sort the data to display a top 10 list!</h1>
             )}
           </div>
-        </div>
+              </div>
+            </div>
+          </div>
       </div>
-    </>
+
   );
 }
 
