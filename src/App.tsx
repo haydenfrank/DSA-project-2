@@ -18,7 +18,9 @@ function App() {
   const handleSort = () => {
     console.log("Sort clicked!");
     setTriggerSort(triggerSort + 1);
-    setShowList(true);
+    if (selectedCategory && selectedNutrient && selectedSort) {
+      setShowList(true);
+    }
   };
 
   const handleNutrientChange = (value: string) => {
@@ -48,17 +50,16 @@ function App() {
     <div className="relative min-h-screen">
       {spiralBackground}
 
-
       <div className="relative z-10 bg-white min-h-screen mx-4 my-8 rounded-3xl shadow-lg">
         <div className="flex justify-center pt-6 pb-4">
           <img
-              src="/nutro.png"
-              alt="Nutro Logo"
-              className="h-28 w-auto object-contain"
+            src="/nutro.png"
+            alt="Nutro Logo"
+            className="h-28 w-auto object-contain"
           />
         </div>
 
-          <div className="flex flex-wrap justify-center items-center">
+        <div className="flex flex-wrap justify-center items-center">
           <div className="flex justify-center gap-2 md:flex-row mx-auto place-items-center mt-4 w-full">
             <SortingAlgorithmsCombobox onValueChange={handleSortChange} />
             <CategoryCombobox onValueChange={handleCategoryChange} />
@@ -77,7 +78,9 @@ function App() {
             <div>
               {showList && (
                 <div>
-                  <header className="font-bold text-xl">Nutrient Ranking</header>
+                  <header className="font-bold text-xl">
+                    Nutrient Ranking
+                  </header>
                   <ol className="text-left pl-2">
                     {topTen.map(({ name, value }, index) => (
                       <li key={index} className="mb-1">
