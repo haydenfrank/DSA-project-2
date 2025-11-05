@@ -1,73 +1,26 @@
-# React + TypeScript + Vite
+<img width="1455" height="588" alt="nutro" src="https://github.com/user-attachments/assets/c7655715-c2d4-4dc3-aa1e-ed18546325dd" />
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+# Nutro - Nutrient Ranking Tool
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Determining the nutrition content of foods is a tedious, but necessary task for anyone interested in maintaining a specific diet. Our tool allows you to quickly sort though tens of thousands of food items in order to find the best foods to help you reach your goals. Our data has been sourced from the USDA's Food and Nutrient Database for Dietary Studies. 
 
-## React Compiler
+An additional goal for this project is the comparison of two different sorting algorithms in order to further our understanding of algorithmic complexity. When using Nutro, you can select between these two algorithms and view them in action. We also give a count of the comparisons and swaps, as well as the recorded time of each algorithm. It should be noted that the time metric will be influenced by your machine's specifications. 
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+# Installation
+There is no installations required to use Nutro. It runs completely in the browser. To try it out, visit: 
+https://dsa-project-2.vercel.app/
 
-## Expanding the ESLint configuration
+<img width="2776" height="1762" alt="Screenshot from 2025-11-05 10-13-14" src="https://github.com/user-attachments/assets/296f7f51-b234-44df-a250-9267c9d02493" />
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Contibution
+If you wish to contribute to Nutro, you will need
+- Node.JS version 20.19 or higher
+- Vite version 7.1 or higher
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Authors
+Nutro was created by Hayden Frank, Brandon Deal, and Haley Tarala
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
