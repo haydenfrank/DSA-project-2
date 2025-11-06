@@ -12,12 +12,13 @@ An additional goal for this project is the comparison of two different sorting a
 - Gain insights into 25+ essential macro and micronutrients
 - Search by category, or query the entire dataset
 - Beautiful, fluid animations and a pleasant UI
-- 
+  
 The project also compares the performance of various sorting algorithms in real time:
 - Merge sort
 - Heap sort
 
 # Languages and Frameworks
+- Typescript
 - Node.JS
 - Tailwind CSS
 - React UI components from shadcn.io
