@@ -34,7 +34,7 @@ If you wish to contribute to Nutro, you will need
 - Node.JS version 20.19 or higher
 - Vite version 7.1 or higher
 
-To build and run the app on localhost, navigate to the project older in the terminal of your choice and run the commands:
+To build and run the app on localhost, clone the repo, navigate to the project folder in the terminal of your choice, and run the commands:
 
 npm install
 
