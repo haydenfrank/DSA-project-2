@@ -34,6 +34,12 @@ If you wish to contribute to Nutro, you will need
 - Node.JS version 20.19 or higher
 - Vite version 7.1 or higher
 
+To build and run the app on localhost, navigate to the project older in the terminal of your choice and run the commands:
+
+npm install
+
+npm run dev
+
 # Authors
 Nutro was created by Hayden Frank, Brandon Deal, and Haley Tarala
 
