@@ -5,7 +5,22 @@
 
 Determining the nutrition content of foods is a tedious, but necessary task for anyone interested in maintaining a specific diet. Our tool allows you to quickly sort though tens of thousands of food items in order to find the best foods to help you reach your goals. Our data has been sourced from the USDA's Food and Nutrient Database for Dietary Studies. 
 
-An additional goal for this project is the comparison of two different sorting algorithms in order to further our understanding of algorithmic complexity. When using Nutro, you can select between these two algorithms and view them in action. We also give a count of the comparisons and swaps, as well as the recorded time of each algorithm. It should be noted that the time metric will be influenced by your machine's specifications. 
+An additional goal for this project is the comparison of two different sorting algorithms in order to further our understanding of algorithmic complexity. When using Nutro, you can select between these two algorithms and view them in action. We also give a count of the comparisons and swaps, as well as the recorded time of each algorithm. It should be noted that the time metric will be influenced by your machine's specifications.
+
+# Features
+- Compare 7000+ common foods
+- Gain insights into 25+ essential macro and micronutrients
+- Search by category, or query the entire dataset
+- Beautiful, fluid animations and a pleasant UI
+- 
+The project also compares the performance of various sorting algorithms in real time:
+- Merge sort
+- Heap sort
+
+# Languages and Frameworks
+- Node.JS
+- Tailwind CSS
+- React UI components from shadcn.io
 
 # Installation
 There is no installations required to use Nutro. It runs completely in the browser. To try it out, visit: 
